@@ -1,15 +1,12 @@
 "use client";
 import { motion } from "framer-motion";
-import { TypewriterEffect } from "@/app/components/ui/typewriter-effect";
 import GridBackground from "@/app/components/ui/grid-background";
 import { FloatingNav } from "@/app/components/ui/floating-navbar";
-import Link from "next/link";
 import { Carousel, Card } from "@/app/components/ui/apple-cards-carousel";
 import { Lexend } from "next/font/google";
 import { Lobster } from "next/font/google";
 import { DecryptButton } from "@/app/components/ui/decrypt-button";
 import { TypewriterLoop } from "@/app/components/ui/typewriter-loop";
-import Image from "next/image";
 import MobileMockupShowcase from "@/app/components/ui/MobileMockupShowcase";
 const lobster = Lobster({
   weight: "400",
@@ -53,7 +50,7 @@ const projectCards = [
 ];
 
 const items = projectCards.map((card, i) => (
-  <Card card={card} key={i} index={i} layout />
+  <Card card={card} key={i} index={i} />
 ));
 export default function Home() {
   return (

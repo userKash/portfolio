@@ -2,12 +2,6 @@
 import { useScroll, useTransform, motion, useSpring } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
-import { Lobster } from "next/font/google";
-
-const lobster = Lobster({
-  weight: "400",
-  subsets: ["latin"],
-});
 
 const screens = [
   "/screen1.png",

@@ -6,10 +6,12 @@ import React, {
   useState,
   createContext,
   useContext,
+  useCallback,
 } from "react";
 import { cn } from "@/app/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 import { useOutsideClick } from "@/app/hooks/use-outside-click";
+import Image from "next/image";
 
 type BlurImageProps = {
   height?: number;
@@ -17,7 +19,7 @@ type BlurImageProps = {
   src: string;
   className?: string;
   alt?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 };
 
 interface CarouselProps {
@@ -42,36 +44,13 @@ export const CarouselContext = createContext<{
 
 export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
   const carouselRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     if (carouselRef.current) {
       carouselRef.current.scrollLeft = initialScroll;
-      checkScrollability();
     }
   }, [initialScroll]);
-
-  const checkScrollability = () => {
-    if (carouselRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
-      setCanScrollLeft(scrollLeft > 0);
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth);
-    }
-  };
-
-  const scrollLeft = () => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: -300, behavior: "smooth" });
-    }
-  };
-
-  const scrollRight = () => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: 300, behavior: "smooth" });
-    }
-  };
 
   const handleCardClose = (index: number) => {
     if (carouselRef.current) {
@@ -98,7 +77,6 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
         <div
           className="flex w-full overflow-x-scroll overscroll-x-auto scroll-smooth py-10 [scrollbar-width:none] md:py-20"
           ref={carouselRef}
-          onScroll={checkScrollability}
         >
           <div className="flex flex-row justify-start gap-4 pl-4 mx-auto max-w-7xl">
             {items.map((item, index) => (
@@ -110,7 +88,7 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
                   transition: {
                     duration: 0.5,
                     delay: 0.2 * index,
-                    ease: "easeOut", // valid
+                    ease: "easeOut",
                   },
                 }}
                 key={"card" + index}
@@ -126,43 +104,31 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
   );
 };
 
-export const Card = ({
-  card,
-  index,
-  layout = false,
-}: {
-  card: CardType;
-  index: number;
-  layout?: boolean;
-}) => {
+export const Card = ({ card, index }: { card: CardType; index: number }) => {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const { onCardClose, currentIndex } = useContext(CarouselContext);
+  const { onCardClose } = useContext(CarouselContext);
+
+  const handleOpen = () => setOpen(true);
+
+  const handleClose = useCallback(() => {
+    setOpen(false);
+    onCardClose(index);
+  }, [index, onCardClose]);
 
   useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
+    const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         handleClose();
       }
-    }
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
+    };
+
+    document.body.style.overflow = open ? "hidden" : "auto";
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [open]);
+  }, [open, handleClose]);
 
-  useOutsideClick(containerRef as React.RefObject<HTMLElement>, () =>
-    handleClose()
-  );
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => {
-    setOpen(false);
-    onCardClose(index);
-  };
+  useOutsideClick(containerRef as React.RefObject<HTMLElement>, handleClose);
 
   return (
     <>
@@ -204,17 +170,12 @@ export const Card = ({
         onClick={handleOpen}
         className="group relative z-10 flex h-80 w-56 md:h-[40rem] md:w-96 overflow-hidden rounded-3xl bg-gray-100 dark:bg-neutral-900"
       >
-        {/* Image */}
         <BlurImage
           src={card.src}
           alt={card.title}
           className="absolute inset-0 z-10 object-cover transition duration-500 group-hover:scale-105"
         />
-
-        {/* Dark overlay */}
         <div className="absolute inset-0 z-20 bg-transparent group-hover:bg-black/60 transition duration-500" />
-
-        {/* Text content at top */}
         <div className="absolute top-0 left-0 z-30 w-full p-6 opacity-0 group-hover:opacity-100 -translate-y-6 group-hover:translate-y-0 transition-all duration-500">
           <p className="text-sm text-white font-medium">{card.category}</p>
           <p className="mt-1 text-xl md:text-3xl font-semibold text-white">
@@ -225,6 +186,7 @@ export const Card = ({
     </>
   );
 };
+
 export const BlurImage = ({
   height,
   width,
@@ -234,14 +196,12 @@ export const BlurImage = ({
   ...rest
 }: BlurImageProps) => {
   return (
-    <img
-      className={cn("h-full w-full object-cover", className)}
-      src={src as string}
-      width={width}
-      height={height}
-      loading="lazy"
-      decoding="async"
+    <Image
+      src={src}
       alt={alt ?? "Image"}
+      width={width ?? 500}
+      height={height ?? 300}
+      className={cn("h-full w-full object-cover", className)}
       {...rest}
     />
   );

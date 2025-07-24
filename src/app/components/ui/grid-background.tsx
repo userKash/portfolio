@@ -1,4 +1,3 @@
-import { cn } from "@/app/lib/utils";
 import React from "react";
 
 export default function GridBackground() {
