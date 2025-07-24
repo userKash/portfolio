@@ -1,103 +1,158 @@
+"use client";
+import { motion } from "framer-motion";
+import { TypewriterEffect } from "@/app/components/ui/typewriter-effect";
+import GridBackground from "@/app/components/ui/grid-background";
+import { FloatingNav } from "@/app/components/ui/floating-navbar";
+import Link from "next/link";
+import { Carousel, Card } from "@/app/components/ui/apple-cards-carousel";
+import { Lexend } from "next/font/google";
+import { Lobster } from "next/font/google";
+import { DecryptButton } from "@/app/components/ui/decrypt-button";
+import { TypewriterLoop } from "@/app/components/ui/typewriter-loop";
 import Image from "next/image";
+import MobileMockupShowcase from "@/app/components/ui/MobileMockupShowcase";
+const lobster = Lobster({
+  weight: "400",
+  subsets: ["latin"],
+});
+const lexend = Lexend({
+  subsets: ["latin"],
+  weight: ["400", "700", "800", "900"],
+});
+const projectCards = [
+  {
+    src: "/EngliQuest.png",
+    title: "EngliQuest",
+    category: "University Project",
+    content: (
+      <p className="text-sm sm:text-base text-white text-center">
+        Learn English the Fun Way
+      </p>
+    ),
+  },
+  {
+    src: "/NextTrip.png",
+    title: "NextTrip App",
+    category: "Mobile App",
+    content: (
+      <p className="text-sm sm:text-base text-white text-center">
+        Your Ultimate Travel Assistant
+      </p>
+    ),
+  },
+  {
+    src: "/PH Gov Portal.png",
+    title: "PH Gov Portal",
+    category: "AI + Verification",
+    content: (
+      <p className="text-sm sm:text-base text-white text-center">
+        Connecting People to Services & Culture
+      </p>
+    ),
+  },
+];
 
+const items = projectCards.map((card, i) => (
+  <Card card={card} key={i} index={i} layout />
+));
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <section className="min-h-screen bg-[#0c0c0c] text-white flex flex-col items-center justify-center px-4 pt-32">
+      <FloatingNav />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      <div className="relative w-full max-w-4xl rounded-3xl overflow-hidden">
+        {/* Grid Background only inside this box */}
+        <motion.div
+          className="absolute inset-0 z-0 opacity-50"
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 0.5, scale: 1 }}
+          transition={{
+            duration: 1.5,
+            ease: "easeOut",
+          }}
+        >
+          <GridBackground />
+        </motion.div>
+
+        {/* Radial spotlight effect (optional) */}
+        <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-radial from-transparent via-black to-black opacity-70"></div>
+
+        {/* Content */}
+        <div className="relative z-20 text-center px-6 py-16">
+          <motion.p
+            className="text-sm italic mb-2 text-zinc-300"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+            Hello, I’m{" "}
+            <span className="font-semibold text-white">Karl Lumabi</span>
+          </motion.p>
+          <motion.div
+            className={`${lexend.className} text-4xl sm:text-6xl font-bold text-center leading-tight`}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
+            UI/UX & FRONTEND{" "}
+            <TypewriterLoop
+              textClassName="text-[#0099ff] font-extrabold"
+              cursorClassName="h-6 sm:h-8 md:h-10 lg:h-[3rem]"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          </motion.div>
+
+          <motion.p
+            className="mt-6 text-zinc-400 text-sm sm:text-base max-w-xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
           >
-            Read our docs
-          </a>
+            Crafting intelligent, playful, and purposeful digital experiences
+            through elegant code, clean interfaces, and intentional design.
+          </motion.p>
+
+          <div className="mt-8 w-full flex flex-col sm:flex-row items-center justify-center gap-4">
+            <motion.div
+              className="mt-8 w-full flex flex-col sm:flex-row items-center justify-center gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <DecryptButton text="VIEW WORK" icon="↗" />
+              <DecryptButton text="VIEW RESUME" icon="📄" />
+            </motion.div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      </div>
+      <MobileMockupShowcase />
+      <section className="w-full px-4 py-20 text-center">
+        <motion.h2
+          className={`text-3xl sm:text-5xl font-bold text-[#0099ff] mb-4 ${lobster.className}`}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          Projects
+        </motion.h2>
+
+        <motion.p
+          className="text-zinc-400 max-w-2xl mx-auto text-sm sm:text-base mb-10"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          viewport={{ once: true }}
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          Projects that reflect how I approach UX — grounded in research, shaped
+          by behavior, and always focused on making things work better.
+        </motion.p>
+
+        <Carousel items={items} />
+      </section>
+    </section>
   );
 }
