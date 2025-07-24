@@ -54,7 +54,7 @@ const items = projectCards.map((card, i) => (
 ));
 export default function Home() {
   return (
-    <section className="min-h-screen bg-[#0c0c0c] text-white flex flex-col items-center justify-center px-4 pt-32">
+    <section className="min-h-screen overflow-x-hidden bg-[#0c0c0c] text-white flex flex-col items-center justify-center px-4 pt-32">
       <FloatingNav />
 
       <div className="relative w-full max-w-4xl rounded-3xl overflow-hidden">
