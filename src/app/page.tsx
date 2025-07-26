@@ -1,64 +1,30 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, LayoutGroup } from "framer-motion";
 import GridBackground from "@/app/components/ui/grid-background";
 import { FloatingNav } from "@/app/components/ui/floating-navbar";
-import { Carousel, Card } from "@/app/components/ui/apple-cards-carousel";
 import { Lexend } from "next/font/google";
 import { Lobster } from "next/font/google";
 import { DecryptButton } from "@/app/components/ui/decrypt-button";
 import { TypewriterLoop } from "@/app/components/ui/typewriter-loop";
 import MobileMockupShowcase from "@/app/components/ui/MobileMockupShowcase";
+import ProjectCard from "@/app/components/ui/ProjectCard";
+
 const lobster = Lobster({
   weight: "400",
   subsets: ["latin"],
 });
+
 const lexend = Lexend({
   subsets: ["latin"],
   weight: ["400", "700", "800", "900"],
 });
-const projectCards = [
-  {
-    src: "/EngliQuest.png",
-    title: "EngliQuest",
-    category: "University Project",
-    content: (
-      <p className="text-sm sm:text-base text-white text-center">
-        Learn English the Fun Way
-      </p>
-    ),
-  },
-  {
-    src: "/NextTrip.png",
-    title: "NextTrip App",
-    category: "Mobile App",
-    content: (
-      <p className="text-sm sm:text-base text-white text-center">
-        Your Ultimate Travel Assistant
-      </p>
-    ),
-  },
-  {
-    src: "/PH Gov Portal.png",
-    title: "PH Gov Portal",
-    category: "AI + Verification",
-    content: (
-      <p className="text-sm sm:text-base text-white text-center">
-        Connecting People to Services & Culture
-      </p>
-    ),
-  },
-];
 
-const items = projectCards.map((card, i) => (
-  <Card card={card} key={i} index={i} />
-));
 export default function Home() {
   return (
     <section className="min-h-screen overflow-x-hidden bg-[#0c0c0c] text-white flex flex-col items-center justify-center px-4 pt-32">
       <FloatingNav />
 
       <div className="relative w-full max-w-4xl rounded-3xl overflow-hidden">
-        {/* Grid Background only inside this box */}
         <motion.div
           className="absolute inset-0 z-0 opacity-50"
           initial={{ opacity: 0, scale: 1.05 }}
@@ -71,10 +37,8 @@ export default function Home() {
           <GridBackground />
         </motion.div>
 
-        {/* Radial spotlight effect (optional) */}
         <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-radial from-transparent via-black to-black opacity-70"></div>
 
-        {/* Content */}
         <div className="relative z-20 text-center px-6 py-16">
           <motion.p
             className="text-sm italic mb-2 text-zinc-300"
@@ -86,6 +50,7 @@ export default function Home() {
             Hello, I’m{" "}
             <span className="font-semibold text-white">Karl Lumabi</span>
           </motion.p>
+
           <motion.div
             className={`${lexend.className} text-4xl sm:text-6xl font-bold text-center leading-tight`}
             initial={{ opacity: 0, y: 20 }}
@@ -125,7 +90,9 @@ export default function Home() {
           </div>
         </div>
       </div>
+
       <MobileMockupShowcase />
+
       <section className="w-full px-4 py-20 text-center">
         <motion.h2
           className={`text-3xl sm:text-5xl font-bold text-[#0099ff] mb-4 ${lobster.className}`}
@@ -148,7 +115,30 @@ export default function Home() {
           by behavior, and always focused on making things work better.
         </motion.p>
 
-        <Carousel items={items} />
+        {/* ✅ Use LayoutGroup here */}
+        <LayoutGroup>
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <ProjectCard
+              title="EngliQuest"
+              description="Personalized English learning using AI-generated quizzes, cultural relevance, and game modes for core language skills."
+              category="Research • Design • Prototype"
+              imageSrc="/EngliQuest.png"
+              gradientFrom="yellow-300"
+              gradientTo="yellow-500"
+              link="/case-studies/engliquest"
+            />
+
+            <ProjectCard
+              title="NextTrip"
+              description="AI recommendations, real-time weather alerts, and smart itinerary planning to personalize your travel."
+              category="Research • Design • Prototype"
+              imageSrc="/NextTrip.png"
+              gradientFrom="cyan-300"
+              gradientTo="blue-500"
+              link="/case-studies/nexttrip"
+            />
+          </div>
+        </LayoutGroup>
       </section>
     </section>
   );

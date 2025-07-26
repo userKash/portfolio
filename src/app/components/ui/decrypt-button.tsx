@@ -37,7 +37,7 @@ export function DecryptButton({
     <motion.button
       onMouseEnter={handleHover}
       onMouseLeave={() => setDisplay(text)}
-      className="w-full sm:w-auto px-6 py-3 border border-white/30 rounded-lg text-white font-mono text-sm tracking-wider flex items-center justify-center gap-2 transition-all duration-300 hover:border-white hover:shadow-[0_0_0_1px_white]"
+      className="w-full px-6 py-3 sm:w-full md:w-full border border-white/30 rounded-lg text-white font-mono text-sm tracking-wider flex items-center justify-center gap-2 transition-all duration-300 hover:border-white hover:shadow-[0_0_0_1px_white]"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
