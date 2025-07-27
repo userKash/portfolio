@@ -6,8 +6,6 @@ interface ProjectCardProps {
   description: string;
   category: string;
   imageSrc: string;
-  gradientFrom: string;
-  gradientTo: string;
   link: string;
 }
 
@@ -16,14 +14,10 @@ export default function ProjectCard({
   description,
   category,
   imageSrc,
-  gradientFrom,
-  gradientTo,
   link,
 }: ProjectCardProps) {
   return (
-    <div
-      className={`flex flex-col bg-gradient-to-br from-${gradientFrom} to-${gradientTo} p-6 rounded-3xl shadow-lg h-full`}
-    >
+    <div className="flex flex-col bg-[#0c0c0c] p-6 rounded-3xl shadow-lg h-full">
       <div className="aspect-video w-full rounded-xl overflow-hidden mb-6">
         <img
           src={imageSrc}

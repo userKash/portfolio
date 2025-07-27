@@ -115,28 +115,36 @@ export default function Home() {
           by behavior, and always focused on making things work better.
         </motion.p>
 
-        {/* ✅ Use LayoutGroup here */}
         <LayoutGroup>
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            <ProjectCard
-              title="EngliQuest"
-              description="Personalized English learning using AI-generated quizzes, cultural relevance, and game modes for core language skills."
-              category="Research • Design • Prototype"
-              imageSrc="/EngliQuest.png"
-              gradientFrom="yellow-300"
-              gradientTo="yellow-500"
-              link="/case-studies/engliquest"
-            />
-
-            <ProjectCard
-              title="NextTrip"
-              description="AI recommendations, real-time weather alerts, and smart itinerary planning to personalize your travel."
-              category="Research • Design • Prototype"
-              imageSrc="/NextTrip.png"
-              gradientFrom="cyan-300"
-              gradientTo="blue-500"
-              link="/case-studies/nexttrip"
-            />
+            {[
+              {
+                title: "EngliQuest",
+                description:
+                  "Personalized English learning using AI-generated quizzes...",
+                category: "Research • Design • Prototype",
+                imageSrc: "/EngliQuest.png",
+                link: "/case-studies/engliquest",
+              },
+              {
+                title: "NextTrip",
+                description: "AI recommendations, real-time weather alerts...",
+                category: "Research • Design • Prototype",
+                imageSrc: "/NextTrip.png",
+                link: "/case-studies/nexttrip",
+              },
+            ].map((project, i) => (
+              <motion.div
+                key={project.title}
+                layoutId={project.title}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: i * 0.2 }}
+                viewport={{ once: true }}
+              >
+                <ProjectCard {...project} />
+              </motion.div>
+            ))}
           </div>
         </LayoutGroup>
       </section>
